@@ -19,3 +19,6 @@ allprojects {
 wrapper {
 	distributionType = Wrapper.DistributionType.ALL
 }
+
+// This sleep is to cause a delay, so it can be measured by Gradle Profiler
+Thread.sleep(5000)
