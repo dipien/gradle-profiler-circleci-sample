@@ -21,4 +21,5 @@ wrapper {
 }
 
 // This sleep is to cause a delay, so it can be measured by Gradle Profiler
-Thread.sleep(5000)
+println "Waiting 10 seconds"
+Thread.sleep(10000)
