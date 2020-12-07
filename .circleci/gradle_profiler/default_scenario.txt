@@ -1,0 +1,14 @@
+# Scenarios are run in alphabetical order
+branch {
+    cleanup-tasks = ["clean"]
+    tasks = ["compileKotlin"]
+    warm-ups = 2
+}
+master {
+    cleanup-tasks = ["clean"]
+    tasks = ["compileKotlin"]
+    warm-ups = 2
+    git-checkout = {
+        build = "master"
+    }
+}

@@ -1,0 +1,58 @@
+version: 2.1
+
+parameters:
+
+  gradleProfiler:
+    type: boolean
+    default: false
+
+  gradleProfilerVersion:
+    type: string
+    default: "0.15.0"
+
+  gradleProfilerScenarioFile:
+    type: string
+    default: ".circleci/gradle_profiler/default_scenario.txt"
+
+  gradleProfilerFlags:
+    type: string
+    default: "--benchmark --cold-daemon --profile buildscan --iterations=10 --measure-config-time --measure-gc"
+
+references:
+
+  working_dir: &working_dir
+                 ~/project
+
+executors:
+  jdk_executor:
+    working_directory: *working_dir
+    docker:
+      - image: cimg/openjdk:11.0
+    environment:
+      JVM_OPTS: -Xmx3200m
+      GRADLE_OPTS: -Dorg.gradle.daemon=false -Dorg.gradle.caching=true
+
+jobs:
+
+  gradleProfiler:
+    executor: jdk_executor
+    steps:
+      - checkout
+      - run:
+          name: Download Gradle Profiler
+          command: |
+            wget https://repo.gradle.org/gradle/ext-releases-local/org/gradle/profiler/gradle-profiler/<< pipeline.parameters.gradleProfilerVersion >>/gradle-profiler-<< pipeline.parameters.gradleProfilerVersion >>.zip
+            unzip gradle-profiler-<< pipeline.parameters.gradleProfilerVersion >>.zip -d .
+      - run:
+          name: Profile
+          command: gradle-profiler-<< pipeline.parameters.gradleProfilerVersion >>/bin/gradle-profiler << pipeline.parameters.gradleProfilerFlags >> --scenario-file ./<< pipeline.parameters.gradleProfilerScenarioFile >> --project-dir ./sample
+      - store_artifacts:
+          path: ./profile-out/
+          destination: profile-out
+
+workflows:
+
+  gradleProfiler:
+    when: << pipeline.parameters.gradleProfiler >>
+    jobs:
+      - gradleProfiler
