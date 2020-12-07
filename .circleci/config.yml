@@ -49,7 +49,7 @@ jobs:
             unzip gradle-profiler-<< pipeline.parameters.gradleProfilerVersion >>.zip -d .
       - run:
           name: Profile
-          command: gradle-profiler-<< pipeline.parameters.gradleProfilerVersion >>/bin/gradle-profiler << pipeline.parameters.gradleProfilerFlags >> --scenario-file ./<< pipeline.parameters.gradleProfilerScenarioFile >> --project-dir ./sample
+          command: gradle-profiler-<< pipeline.parameters.gradleProfilerVersion >>/bin/gradle-profiler << pipeline.parameters.gradleProfilerFlags >> --scenario-file ./<< pipeline.parameters.gradleProfilerScenarioFile >> --project-dir .
       - store_artifacts:
           path: ./profile-out/
           destination: profile-out
