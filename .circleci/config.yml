@@ -2,6 +2,10 @@ version: 2.1
 
 parameters:
 
+  api:
+    type: boolean
+    default: false
+
   gradleProfiler:
     type: boolean
     default: false
