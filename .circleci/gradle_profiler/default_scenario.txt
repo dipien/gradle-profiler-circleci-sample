@@ -12,4 +12,5 @@ master {
         cleanup = "master"
         build = "master"
     }
+    git-revert = ["master"]
 }
