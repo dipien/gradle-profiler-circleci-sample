@@ -9,6 +9,7 @@ master {
     tasks = ["compileKotlin"]
     warm-ups = 2
     git-checkout = {
+        cleanup = "master"
         build = "master"
     }
 }
